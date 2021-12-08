@@ -1,0 +1,280 @@
+<div class="card card-cascade"  style="background-color: rgb(0,0,0,.4);">
+  <div class="view view-cascade gradient-card-header p-2" style="background-color:rgb(0, 0, 128, 0.2);">
+
+    <div class="row">
+        <div class="col-md-12">
+            <h2 class="card-header-title mb-0 text-left ml-3 align-items-center mt-1" style="height: 38px; overflow: hidden;">
+              <%= truncate(@chat.name, length: 20) %>
+              <%# if @chat.users[0][:id] == current_user[:id] %>
+              <%#= truncate(@chat.users[1][:name], length: 10) %>
+              <%# else %>
+              <%#= truncate(@chat.users[0][:name], length: 10) %>
+              <%# end %>
+              </h2>
+        </div>
+        <div class="col-md-12 text-right">
+          <% if current_user.id==@chat.admin_id %>
+            <%= link_to destroyall_messages_path(chat_room: @chat.id), method: :delete, class: 'btn btn-warning btn-sm' do %>
+              清空窗口
+            <% end %>
+
+            <%= link_to chat_path(@chat), method: :delete, class: 'btn btn-danger btn-sm' do %>
+              删除聊天
+            <% end %>
+
+          <% else %>
+            <%= link_to delete_user_chat_path(user_id: current_user.id, id: @chat.id), method: :delete, class: 'btn btn-danger btn-sm' do %>
+              退出聊天
+            <% end %>
+          <% end %>
+
+        </div>
+    </div>
+
+  </div>
+
+  <div class="card-body card-body-cascade" >
+    <div class="card-text custom-scrollbar scrollbar-near-moon">
+
+        <div id="demo-chat-body">
+          <%= render 'chats/chatwindowbody' %>
+        </div>
+
+    </div>
+
+    <hr>
+    <%#= form_for @new_message, remote: true, id: "msgForm" do |f| %>
+      <%#= hidden_field_tag :chat_room, @chat.id %>
+      <input type="hidden" name="chat_room" id="chat_room" value="<%= @chat.id %>">
+      <input type="hidden" name="chat_first_user" id="chat_first_user" value="<%= @chat.users[0][:email] %>">
+      <input type="hidden" name="chat_second_user" id="chat_second_user" value="<%= @chat.users[1][:email] %>">
+      <% if current_user.picture? %>
+        <% picture = current_user.picture.url %>
+      <% else %>
+        <% picture = "user-icon.png" %>
+      <% end %>
+      <input type="hidden" name="chat_picture" id="chat_picture" value="<%= picture %>">
+      <!-- <input class="form-control" placeholder="说点什么..." type="text" name="message[body]" id="message_body"/> -->
+        <div class="md-form amber-textarea active-amber-textarea mb-0">
+          <i class="fa fa-edit prefix" style="color:rgb(211,211,211,.6);" ></i>
+          <textarea type="text" id="message_body" name="message[body]" class="md-textarea form-control" rows="3"></textarea>
+          <label for="message_body">说点什么...</label>
+        </div>
+      <%#= f.text_field :body, class: "form-control", placeholder: "Type your message here..."%>
+        <%#= f.button "Send", class: "btn btn-md btn-secondary m-0 px-3" %>
+        <div class="row">
+        <div class="col-md-8 pr-0">
+          <a class="emojiji"> 😂 </a>
+          <a class="emojiji"> 😆 </a>
+          <a class="emojiji"> 😉 </a>
+          <a class="emojiji"> 🙂 </a>
+          <a class="emojiji"> 🙃 </a>
+          <a class="emojiji"> 😎 </a>
+          <a class="emojiji"> 😍 </a>
+          <a class="emojiji"> 😘 </a>
+          <a class="emojiji"> 😅 </a>
+          <a class="emojiji"> 👿 </a>
+          <a class="emojiji"> 👌 </a>
+          <a class="emojiji"> ✌ </a>
+          <a class="emojiji"> 👍 </a>
+          <a class="emojiji"> 👎 </a>
+          <a class="emojiji"> ✊ </a>
+          <a class="emojiji"> 👊 </a>
+          <a class="emojiji"> 👏 </a>
+          <a class="emojiji"> 💪 </a>
+          <a class="emojiji"> 👦 </a>
+          <a class="emojiji"> 👧 </a>
+          <a class="emojiji"> 🍦 </a>
+          <a class="emojiji"> 🍧 </a>
+          <a class="emojiji"> 🍨 </a>
+          <a class="emojiji"> 🚓 </a>
+          <a class="emojiji"> 🚔 </a>
+          <a class="emojiji"> 🚕 </a>
+          <a class="emojiji"> 🚖 </a>
+          <a class="emojiji"> 🚗 </a>
+          <a class="emojiji"> 🚘 </a>
+          <a class="emojiji"> 🚚 </a>
+          <a class="emojiji"> 🚛 </a>
+          <a class="emojiji"> 🍎 </a>
+          <a class="emojiji"> 🍏 </a>
+          <a class="emojiji"> 🍐 </a>
+          <a class="emojiji"> 🍑 </a>
+          <a class="emojiji"> 🍒 </a>
+          <a class="emojiji"> 🍓 </a>
+          <a class="emojiji"> 🍅 </a>
+          <a class="emojiji"> 🍆 </a>
+          <a class="emojiji"> 🌽 </a>
+          <a class="emojiji"> 🍄 </a>
+          <a class="emojiji"> 🌰 </a>
+          <a class="emojiji"> 🍞 </a>
+          <a class="emojiji"> 🍖 </a>
+        </div>
+        <script type="text/javascript">
+            $(document).ready(
+                function(){
+                    document.onkeydown = function()
+                    {
+                        var oEvent = window.event;
+                        if (oEvent.keyCode == 13 && oEvent.ctrlKey) {
+                            // alert("你按下了ctrl+enter");
+                            mes_send();
+                        }
+                    }
+                }
+            );
+            $(".emojiji").on('click', function(){
+            tmp = $("#message_body").val();
+            $("#message_body").val(tmp+$(this).html());
+          })
+        </script>
+        <div class="col-md-4 text-right">
+          <button class="btn btn-warning radius m-0 px-3 py-2" type="button" id="msgClear">清空</button>
+          <button class="btn btn-success radius ml-3 px-3 py-2" type="button" id="msgSendBtn">发送</button>
+        </div>
+        </div>
+    <%# end %>
+
+  </div>
+
+</div>
+        
+
+<script>
+    var $cont = $('.nano-content');
+    $cont[0].scrollTop = $cont[0].scrollHeight;
+</script>
+
+<script type="text/javascript">
+    function mes_send(){
+        if ($("#message_body").val() == ""){
+            alert("输入为空")
+            return
+        }
+
+        // if ($("#chat_first_user").val() == "robot@test.com" || $("#chat_second_user").val() == "robot@test.com" ){
+        if($("#chat_first_user").val().indexOf("robot")!=-1||$("#chat_second_user").val().indexOf("robot")!=-1 ){//不等于-1 证明是存在这个的 是机器人
+            bodymsg = $("#message_body").val();
+            targeturl = "http://openapi.tuling123.com/openapi/api/v2";
+            $.ajax({
+                type: 'POST',
+                url: '/sendtorobot',
+                dataType: 'JSON',
+                data: {
+                    "body": bodymsg,
+                    "targeturl": targeturl,
+                    "chat_room": $("#chat_room").val()
+                },
+                success: function(data){
+                    var now = new Date();
+                    var year = now.getFullYear(); //得到年份
+                    var month = now.getMonth()+1;//得到月份
+                    var date = now.getDate();//得到日期
+                    var day = now.getDay();//得到周几
+                    var hour = now.getHours();//得到小时
+                    var minu = now.getMinutes();//得到分钟
+                    var sec = now.getSeconds();//得到秒
+                    mytime = year + "-" + month + "-" + date+ " " + hour + ":" + minu + ":" + sec
+                    $("#message_body").val("");
+
+                    var str1='<li class="mar-btm">\n' +
+                        '  <div class="media-right">\n' +
+                        '\n' +
+                        '\n' +
+                        '    <img class="img-sm" src="<%= picture %>">\n' +
+                         // '    <img class="img-sm" src="/assets/robot.jpg">\n' +
+
+                        '\n' +
+                        '  </div>\n' +
+                        '  <div class="media-body pad-hor speech-right">\n' +
+                        '    <div class="speech">\n' +
+                        '      <p class="media-heading">我\n' +
+                        '        <text class="speech-time">\n' +
+                        '          <i class="fa fa-clock-o fa-fw"></i>\n' +
+                        mytime +
+                        '        </text>\n' +
+                        '      </p>\n' +
+                        '      <p style="margin-bottom: 5px; margin-top: 5px;">'+ bodymsg+'</p>\n' +
+                        '    </div>\n' +
+                        '  </div>\n' +
+                        '</li>'
+                    var str2 ='<li class="mar-btm">\n' +
+                        '  <div class="media-left">\n' +
+                        '\n' +
+                        '\n' +
+                        // '    <img class="img-sm" src="/assets/user-icon-6122bab3bf45f283f96860b90f4e0846a25f9e68927904222c21e8d2ca26d79f.png">\n' +
+                        '    <img class="img-sm" src="/assets/robot.jpg">\n' +
+                        '\n' +
+                        '  </div>\n' +
+                        '  <div class="media-body pad-hor ">'+
+                        '<div class="speech">\n' +
+                        '      <p class="media-heading">robot@test.com\n' +
+                        '        <text class="speech-time">\n' +
+                        '          <i class="fa fa-clock-o fa-fw"></i>\n' +
+                        mytime +
+                        '        </text>\n' +
+                        '      </p>\n' +
+                        '      <p style="margin-bottom: 5px; margin-top: 5px;">'+data["ret_msg"]+'</p>\n' +
+                        '    </div>'
+                    // $(".list-unstyled")[0].append("<p>Hello</p>")
+                    $(".list-unstyled").append(str1)
+                    $(".list-unstyled").append(str2)
+                    document.getElementsByClassName("nano-content pad-all")[0].scrollTop= document.getElementsByClassName("nano-content pad-all")[0].scrollHeight
+                },
+                error: function(data){
+                    $("#message_body").val("");
+                }
+            })
+        }
+        else{
+            // alert("发送成功!")
+            // location.reload();
+            var msgdata = {
+                "controller": "messages",
+                "action": "create",
+                "message" : {
+                    "body" : $("#message_body").val()
+                },
+                "chat_room" : $("#chat_room").val()
+            }
+            $.ajax({
+                type: 'POST',
+                url: '/messages',
+                dataType: "JSON",
+                data: msgdata,
+                success: function(data){
+                    // alert("succeed 1")
+                    // alert(data.success)
+                    if(data.success == "1"){//发送失败的话 success 是1 这里是写一个警告框
+                        // alert("failed 2")
+                        toastr.options = {
+                            "closeButton": true,
+                            "debug": false,
+                            "newestOnTop": false,
+                            "progressBar": true,
+                            "positionClass": "toast-bottom-left",
+                            "preventDuplicates": false,
+                            "onclick": null,
+                            "showDuration": "300",
+                            "hideDuration": "1000",
+                            "timeOut": "5000",
+                            "extendedTimeOut": "1000",
+                            "showEasing": "swing",
+                            "hideEasing": "linear",
+                            "showMethod": "fadeIn",
+                            "hideMethod": "fadeOut"
+                        };
+                        toastr['warning'](data.msg);
+                    }
+                    $("#message_body").val("");//清空输入框
+                },
+                error: function(data){
+                    $("#message_body").val("");
+                }
+            })
+        }
+    }
+  $("#msgSendBtn").on('click', mes_send)
+  $("#msgClear").on('click', function(){
+    $("#message_body").val("");
+  })
+</script>

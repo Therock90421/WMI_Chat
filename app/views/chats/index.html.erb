@@ -1,0 +1,28 @@
+<body class="fixed-sn black-skin" aria-busy="true">
+  
+  <%= render 'chats/header' %>
+  <main>
+    <div class="container-fluid">
+      <%= render 'chats/addfriend' %>
+
+      <div class="row">
+        <div class="col-md-6">
+            <%= render 'users/selfinfo' %>
+            <%= render 'footsteps/showfootstep' %>
+            <%= render 'articles/articlelist' %>
+        </div>
+        <div class="col-md-6">
+            <%= render 'users/onlinefriend' %>
+            <%= render 'users/onlineuser' %>
+            <%= render 'articles/new' %>
+            <%= render 'articles/friendsarticlelist' %>
+        </div>
+      </div>
+    </div>
+    <%= render 'chats/messagetoastr' %>
+    
+  </main>
+
+  <%= render 'layouts/footer' %>
+
+</body>

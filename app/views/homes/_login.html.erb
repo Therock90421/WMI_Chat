@@ -1,0 +1,41 @@
+<%= form_for(:session, url: sessions_login_path, method: :post, html: {role: 'form'}) do |f| %>
+<div class="modal-body mb-0">
+  <div class="md-form form-sm">
+    <i class="fa fa-address-card prefix",style="font-size:36px"></i>
+    <%= f.label :email, "邮箱" %>
+    <%= f.email_field :email, class: 'form-control' %>
+  </div>
+
+  <div class="md-form form-sm">
+    <i class="fa fa-key prefix",style="font-size:36px"></i>
+    <%= f.label :password, "密码" %>
+    <%= f.password_field :password, class: 'form-control' %>
+  </div>
+
+  <div class="d-flex justify-content-around">
+    <div>
+      <!-- Remember me -->
+      <div class="form-check p-0 ">
+        <input type="checkbox" class="form-check-input" id="materialLoginFormRemember">
+        <label class="form-check-label" for="materialLoginFormRemember"><%= f.check_box :remember_me %>下次自动登录</label>
+      </div>
+    </div>
+  </div>
+  <div class="text-center mt-1-half my-4">
+    <%= button_tag(type: "submit", class: "btn green mb-2 waves-effect waves-light ") do %>
+    Sign in <i class="fa fa-home ml-1"></i>
+    <% end %>
+  </div>
+  <p class="text-center">
+    <%= link_to new_user_path do %>
+    <!-- <a href="/users/new"> -->
+      注册
+    <!-- </a> -->
+    <% end %>
+    |
+    <a href="">忘记密码</a>
+  </p>
+
+</div>
+
+<% end %>

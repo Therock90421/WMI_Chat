@@ -1,0 +1,42 @@
+<div class="card card-cascade narrower mt-5" style="background-color: rgb(0,0,0,.4);">
+  <div class="view view-cascade gradient-card-header lighten-2 narrower py-2 mx-4 mb-3 d-flex justify-content-between align-items-center" style="background-color: rgb(255, 106, 106);">
+    <a href="" class="white-text mx-3">发表动态</a>
+    <div>
+      <a href="/chats" type="button" class="btn btn-secondary py-2 px-4">重新编辑</a>
+      <%#= link_to chats_path, type: "button", class: "btn btn-success py-2 px-4" do %>
+      <!-- 刷新 -->
+      <%# end %>
+    </div>
+  </div>
+
+  <div class="px-4 pb-5">
+    <%= form_for @newarticle, url: createarticle_path, method: :post do |f| %>
+    <div class="row pr-4">
+      <div class="col-md-12">
+
+        <div class="md-form">
+          <div class="file-field">
+              <i class="fa fa-camera-retro float-left" style="font-size:40px;color:grey"> <%= f.file_field :picture %> </i>
+            <div class="file-path-wrapper">
+              <input class="file-path validate" type="text" placeholder="添加图片">
+            </div>
+          </div>
+        </div>
+
+        <div class="md-form mb-4 pink-textarea active-pink-textarea-2">
+          <i class="fa fa-angle-double-right prefix" style="color:rgb(211,211,211,.6);"></i>
+          <label for="post_body">分享你的生活...</label>
+          <%= hidden_field_tag :user_id, current_user.id %>
+          <%= f.text_area :content, class: "md-textarea form-control", rows: 3 %>
+        </div>
+      </div>
+    </div>
+    <div class="row pr-4">
+      <div class="col-md-12 text-right">
+        <%= f.submit '与朋友分享', class: 'btn btn-warning lighten-2 btn-sm' %>
+      </div>
+    </div>
+    <% end %>
+  </div>
+
+</div>
